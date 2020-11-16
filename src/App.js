@@ -8,7 +8,7 @@ import dog2 from "./img/dog2.jpg"
 import dog3 from "./img/dog3.png"
 import dog4 from "./img/dog4.jpg"
 import './App.css';
-import {Button,Container,Switch } from '@material-ui/core';
+import { Button, Container, Switch } from '@material-ui/core';
 import obtenerDato from './dato.js';
 import { FaCat, FaDog } from "react-icons/fa";
 const gatos = [
@@ -24,44 +24,52 @@ const perros = [
   dog4
 ];
 class App extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state = {dato: "Preciona el botón para obtenér un dato",datoCargado: false,animal: "cat",checked:false,currentImageIndex:0}
+    this.state = { 
+      dato: "Preciona el botón para obtenér un dato", 
+      animal: "cat", 
+      checked: false, 
+      currentImageIndex: 0 
+    }
     this.callAPI = this.callAPI.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
-  imagenRNG()
-  {
+  imagenRNG() {
     const randomNumber = Math.floor(Math.random() * (4 - 0)) + 0;
     this.setState({
       currentImageIndex: randomNumber
     });
   }
-  callAPI(){
-    this.setState({dato: "loading...",datoCargado: false});
-    obtenerDato(this.state.animal).then(dato=> this.setState({dato: dato.text,datoCargado: true} ));
-    this.imagenRNG();    
-  } 
-  
+  callAPI() {
+    this.setState({ dato: "loading..."});
+    obtenerDato(this.state.animal).then(dato => this.setState({ dato: dato.text}));
+    this.imagenRNG();
+  }
+
+  changeAnimal(animal) {
+    this.setState({ dato: "Preciona el botón para obtenér un dato", animal: animal, checked: true });
+  }
+
   handleChange() {
-    this.setState( state => {
-      if(state.animal === "cat"){
-        this.setState({dato: "Preciona el botón para obtenér un dato",animal: "dog",checked:true});
+    this.setState(state => {
+      if (state.animal === "cat") {
+        changeAnimal("dog");
       }
-      else{
-        this.setState({dato: "Preciona el botón para obtenér un dato",animal: "cat",checked:false});
+      else {
+        changeAnimal("cat");
       }
     });
     this.imagenRNG();
   }
 
-  render(){
-    let icono,foto;    
+  render() {
+    let icono, foto;
     if (this.state.animal === "cat") {
       icono = <FaCat></FaCat>;
       foto = gatos;
     }
-    else{
+    else {
       icono = <FaDog></FaDog>;
       foto = perros;
     }
@@ -85,7 +93,7 @@ class App extends React.Component {
           <Button onClick={this.callAPI} variant="contained" color="primary">Dato Random</Button >
         </header>
       </div>
-      
+
     );
   }
 }
