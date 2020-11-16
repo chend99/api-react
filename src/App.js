@@ -48,16 +48,16 @@ class App extends React.Component {
   }
 
   changeAnimal(animal) {
-    this.setState({ dato: "Preciona el botón para obtenér un dato", animal: animal, checked: true });
+    this.setState({ dato: "Preciona el botón para obtenér un dato", animal: animal, checked: animal === "cat" ? false:true });
   }
 
   handleChange() {
     this.setState(state => {
       if (state.animal === "cat") {
-        changeAnimal("dog");
+        this.changeAnimal("dog");
       }
       else {
-        changeAnimal("cat");
+        this.changeAnimal("cat");
       }
     });
     this.imagenRNG();
